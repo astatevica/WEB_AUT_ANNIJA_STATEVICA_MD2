@@ -47,4 +47,12 @@ export class LogInPage extends BasePage {
     static get bookAppointment(){
         return cy.get("button#btn-book-appointment");
     }
+
+    static get sideBar(){
+        return cy.get("#sidebar-wrapper");
+    }
+
+    static get history(){
+        return cy.get("#history");
+    }
 }

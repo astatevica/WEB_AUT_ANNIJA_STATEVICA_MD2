@@ -38,12 +38,35 @@ describe("Elements", () => {
       AppValidPage.program.should('contain','Medicaid');
       //AppValidPage.visitDate.should('contain',dateSelected);
       if (dateSelected) {
-        AppValidPage.visitDate.should('contain', let);
+        AppValidPage.visitDate.should('contain', dateSelected);
       } else {
         cy.log("Date selection failed or returned undefined." + dateSelected);
       }
       AppValidPage.comment.should('contain','CURA Healthcare Service');
     })
+
+    it('Make an Appointment', () => {
+      // Open site
+      // Click - Make Appointment
+      HomePage.clickOnMenu.click();
+      HomePage.clickLogin.contains("Login").click();
+      // Set username and password fields with the demo account credentials
+      LogInPage.setUsername.type('John Doe');
+      LogInPage.setPassword.type('ThisIsNotAPassword');
+      // Click - Login
+      LogInPage.loginButton.click();
+      // Click - Menu/Stack/Burger icon
+      HomePage.clickOnMenu.click();
+      // Validate that the sidebar is active
+      LogInPage.sideBar.should('have.class','active');
+      // Click - History
+      LogInPage.sideBar.contains("History").click();
+      // Validate that - No appointment - is visible
+      LogInPage.history.should('contain','No appointment');
+
+
+    })
+
 
   
 
