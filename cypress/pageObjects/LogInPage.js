@@ -18,8 +18,8 @@ export class LogInPage extends BasePage {
         return cy.get("[class='form-control']");
     }
 
-    static get setSeoul(){
-        return cy.get("[value='Seoul CURA Healthcare Center']");
+    static setSeoul(){
+        return cy.get("select").select("Seoul CURA Healthcare Center");
     }
 
     static get hospitalRead(){
@@ -29,12 +29,22 @@ export class LogInPage extends BasePage {
     static get medicaid(){
         return cy.get("input#radio_program_medicaid");
     }
-
-    static get inputDate(){
-        return cy.get("#txt_visit_date");
+ 
+    static selectDate() {
+        let selectedDate;
+        cy.get("#txt_visit_date").click();
+        cy.get(".datepicker").contains("30").click();
+        cy.get("#txt_visit_date").invoke("val").then(date => {
+            selectedDate = date;
+        });
+        return selectedDate;
     }
 
-    static get comment(){
-        return cy.get("input[id='txt_comment']");
+    static comment(text){
+        cy.get("textarea[id='txt_comment']").clear({force: true}).type(text, {force: true});
+    }
+
+    static get bookAppointment(){
+        return cy.get("button#btn-book-appointment");
     }
 }

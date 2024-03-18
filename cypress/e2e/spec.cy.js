@@ -1,3 +1,4 @@
+const { AppValidPage } = require("../pageObjects/AppValidPage");
 const { BasePage } = require("../pageObjects/BasePage");
 const { HomePage } = require("../pageObjects/HomePage");
 const { LogInPage } = require("../pageObjects/LogInPage");
@@ -20,21 +21,28 @@ describe("Elements", () => {
       LogInPage.loginButton.click();
       //Set the following values:
       //Facility - Seoul CURA Healthcare Center
-      //TODO jāpabeidz šis
-      //LogInPage.setFacility.click({ multiple: true });
-      LogInPage.setSeoul.click({force: true});
+      LogInPage.setSeoul();
       //Check - Apply for hospital readmission
       LogInPage.hospitalRead.click();
       //Select - Medicaid
       LogInPage.medicaid.click();
       //Set Date value by using the widget - 30
-      //TODO pabeigt datumu
-      LogInPage.inputDate.type('28-04-2000');
+      let dateSelected = LogInPage.selectDate(); 
       //Set comment - CURA Healthcare Service
-      LogInPage.comment.type("CURA Healthcare Service");
+      LogInPage.comment("CURA Healthcare Service");
       //Click - Book Appointment
+      LogInPage.bookAppointment.click();
       //Validate that previously set values are correct
-
+      AppValidPage.facility.should('contain','Seoul CURA Healthcare Center');
+      AppValidPage.readmission.should('contain','Yes');
+      AppValidPage.program.should('contain','Medicaid');
+      //AppValidPage.visitDate.should('contain',dateSelected);
+      if (dateSelected) {
+        AppValidPage.visitDate.should('contain', let);
+      } else {
+        cy.log("Date selection failed or returned undefined." + dateSelected);
+      }
+      AppValidPage.comment.should('contain','CURA Healthcare Service');
     })
 
   
